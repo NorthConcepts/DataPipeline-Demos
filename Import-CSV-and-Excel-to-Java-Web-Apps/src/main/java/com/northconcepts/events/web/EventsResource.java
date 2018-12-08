@@ -1,29 +1,42 @@
 package com.northconcepts.events.web;
 
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URI;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
+import com.northconcepts.datapipeline.core.DataException;
 import com.northconcepts.datapipeline.core.DataReader;
 import com.northconcepts.datapipeline.core.DataWriter;
 import com.northconcepts.datapipeline.core.RecordList;
+import com.northconcepts.datapipeline.csv.CSVReader;
 import com.northconcepts.datapipeline.csv.CSVWriter;
 import com.northconcepts.datapipeline.excel.ExcelDocument;
+import com.northconcepts.datapipeline.excel.ExcelDocument.ProviderType;
+import com.northconcepts.datapipeline.excel.ExcelReader;
 import com.northconcepts.datapipeline.excel.ExcelWriter;
 import com.northconcepts.datapipeline.jdbc.JdbcReader;
+import com.northconcepts.datapipeline.jdbc.JdbcWriter;
 import com.northconcepts.datapipeline.job.Job;
 import com.northconcepts.datapipeline.memory.MemoryWriter;
 import com.northconcepts.datapipeline.transform.BasicFieldTransformer;
 import com.northconcepts.datapipeline.transform.CopyField;
+import com.northconcepts.datapipeline.transform.SelectFields;
 import com.northconcepts.datapipeline.transform.SetCalculatedField;
 import com.northconcepts.datapipeline.transform.TransformingReader;
 
@@ -134,6 +147,49 @@ public class EventsResource {
         Job.run(reader, writer);
         
         return Response.ok().build();
+    }
+
+    @POST
+    @Path("/events")
+    public Response uploadEvents(@Context HttpServletRequest request) throws Throwable {
+        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        if (!isMultipart) {
+            return Response.ok("Not multipart request").build();
+        }
+        
+        FileItemFactory factory = new DiskFileItemFactory();
+        ServletFileUpload upload = new ServletFileUpload(factory);
+        List<FileItem> files = upload.parseRequest(request);
+        
+        for (FileItem file : files) {
+            saveEvents(file);
+        }
+        
+        return Response.seeOther(new URI("/events")).build();
+    }
+
+    private void saveEvents(FileItem file) throws Throwable {
+        if (file.isFormField()) {
+            return;
+        }
+        
+        String fileName = file.getName();
+        DataReader reader;
+        
+        if (fileName.endsWith(".csv")) {
+            reader = new CSVReader(new InputStreamReader(file.getInputStream())).setFieldNamesInFirstRow(true);
+        } else if (fileName.endsWith(".xls") || fileName.endsWith(".xlsx")) {
+            ExcelDocument excelDocument = new ExcelDocument(fileName.endsWith(".xlsx")?ProviderType.POI_XSSF:ProviderType.POI);
+            excelDocument.open(file.getInputStream());
+            reader = new ExcelReader(excelDocument).setFieldNamesInFirstRow(true);
+        } else {
+            throw new DataException("unknown file type: expected .csv, .xls, or .xlsx file extension").set("fileName", fileName);
+        }
+        
+        reader = new TransformingReader(reader).add(new SelectFields("EVENT_TYPE", "TITLE", "SUMMARY", "LOCATION", "START_TIME", "DURATION_MINUTES"));
+        DataWriter writer = new JdbcWriter(db.getConnection(), "EVENT");
+        
+        Job.run(reader, writer);
     }
     
 }
