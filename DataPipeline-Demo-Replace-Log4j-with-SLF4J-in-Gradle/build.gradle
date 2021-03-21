@@ -1,0 +1,27 @@
+plugins {
+    id 'java'
+}
+
+group 'com.northconcepts'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenLocal()
+    jcenter()
+    maven {
+        url = 'https://maven.northconcepts.com/public/repositories/datapipeline'
+    }
+}
+
+dependencies {
+    implementation 'org.slf4j:log4j-over-slf4j:1.7.30'
+    implementation 'ch.qos.logback:logback-classic:1.2.3'
+    implementation "com.northconcepts:northconcepts-datapipeline-integrations-parquet:6.1.0-SNAPSHOT",{
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'log4j', module: 'log4j'
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
