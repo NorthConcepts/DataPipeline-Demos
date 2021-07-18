@@ -12,7 +12,7 @@ dependencies {
     compile 'org.hsqldb:hsqldb:2.4.1'
     compile 'org.jboss.resteasy:resteasy-jaxrs:3.6.1.Final'
 
-    testCompile 'junit:junit:4.12'
+    testCompile 'junit:junit:4.13.1'
 }
 
 repositories {
