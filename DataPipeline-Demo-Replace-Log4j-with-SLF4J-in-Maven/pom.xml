@@ -34,10 +34,29 @@
             <version>1.2.3</version>
         </dependency>
 
+		<dependency>
+            <groupId>com.northconcepts</groupId>
+            <artifactId>northconcepts-datapipeline-foundations</artifactId>
+            <version>7.0.0</version>
+            <!-- <exclusions>
+            	<exclusion>
+                    <groupId>com.northconcepts</groupId>
+                    <artifactId>northconcepts-datapipeline-small-business</artifactId>
+                </exclusion>
+            </exclusions> -->
+        </dependency>
+        
+		<!-- Move this dependency before DPF to resolve license error. -->
+        <dependency>
+            <groupId>com.northconcepts</groupId>
+            <artifactId>northconcepts-datapipeline-enterprise</artifactId>
+            <version>7.0.0</version>
+        </dependency>
+        
         <dependency>
             <groupId>com.northconcepts</groupId>
             <artifactId>northconcepts-datapipeline-integrations-parquet</artifactId>
-            <version>6.1.0-SNAPSHOT</version>
+            <version>7.0.0</version>
             <exclusions>
             	<!-- <exclusion>
                     <groupId>com.northconcepts</groupId>
@@ -52,13 +71,6 @@
                     <artifactId>log4j</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        
-        <!-- Move this dependency before parquet to resolve license error. -->
-        <dependency>
-            <groupId>com.northconcepts</groupId>
-            <artifactId>northconcepts-datapipeline-enterprise</artifactId>
-            <version>6.1.0-SNAPSHOT</version>
         </dependency>
         
     </dependencies>
