@@ -7,7 +7,7 @@ plugins {
 dependencies {
     providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
 
-    compile  "com.northconcepts:northconcepts-datapipeline-small-business:5.0.0"
+    compile  "com.northconcepts:northconcepts-datapipeline-small-business:8.0.0-SNAPSHOT"
 
     compile 'org.hsqldb:hsqldb:2.4.1'
     compile 'org.jboss.resteasy:resteasy-jaxrs:3.6.1.Final'
