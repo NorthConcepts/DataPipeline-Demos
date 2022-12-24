@@ -16,7 +16,7 @@ repositories {
 dependencies {
     implementation 'org.slf4j:log4j-over-slf4j:1.7.30'
     implementation 'ch.qos.logback:logback-classic:1.2.3'
-    implementation "com.northconcepts:northconcepts-datapipeline-integrations-parquet:8.0.0-SNAPSHOT",{
+    implementation "com.northconcepts:northconcepts-datapipeline-integrations-parquet:8.1.0-SNAPSHOT",{
         exclude group: 'org.slf4j', module: 'slf4j-log4j12'
         exclude group: 'log4j', module: 'log4j'
     }
