@@ -25,44 +25,33 @@ public class SimplePipeline_WithDataMapping {
                 .addFieldMapping("acb", "toBigDecimal(source.acb_per_share)")
                 ;
         
+        System.out.println(dataMapping.toXml());
+
+        /*    
+        <data-mapping>
+          <field-mappings>
+            <field-mapping fieldName="date" sourceExpression="parseDate(source.date, 'MM/dd/yyyy')"/>
+            <field-mapping fieldName="symbol" sourceExpression="source.symbol"/>
+            <field-mapping fieldName="shares" sourceExpression="toBigDecimal(source.shares)"/>
+            <field-mapping fieldName="share_price" sourceExpression="toBigDecimal(source.share_price)"/>
+            <field-mapping fieldName="cost" sourceExpression="target.share_price * target.shares"/>
+            <field-mapping fieldName="acb" sourceExpression="toBigDecimal(source.acb_per_share)"/>
+          </field-mappings>
+        </data-mapping>
+        */    
+                
         // Ingest data
         DataReader reader = new CSVReader(new File("data/input/portfolio.csv")).setFieldNamesInFirstRow(true).setAllowMultiLineText(true);
         reader = new DataMappingReader(reader, dataMapping);
-        DataWriter writer = new ParquetDataWriter(new File("data/output/portfolio-incoming-2023-01-16.parquet"));
+        DataWriter writer = new ParquetDataWriter(new File("data/output/portfolio-incoming.parquet"));
         Job.run(reader, writer);
         
         // Show ingested data
-        reader = new ParquetDataReader(new File("data/output/portfolio-incoming-2023-01-16.parquet"));
+        reader = new ParquetDataReader(new File("data/output/portfolio-incoming.parquet"));
         writer = StreamWriter.newSystemOutWriter();
         Job.run(reader, writer);
         
     }
 
-/*    
-    0:[date]:STRING=[11/4/2016]:String
-    1:[type]:STRING=[SELL_LOT]:String
-    2:[symbol]:STRING=[AAPL]:String
-    3:[shares]:STRING=[60]:String
-    4:[share_price]:STRING=[109.1827]:String
-    5:[costs]:STRING=[0]:String
-    6:[fees]:STRING=[5.15]:String
-    7:[total_amount]:STRING=[6545.81]:String
-    8:[div_amount]:STRING=[0]:String
-    9:[shares_affected]:STRING=[0]:String
-    10:[currency]:STRING=[USD]:String
-    11:[rate]:STRING=[1]:String
-    12:[cash_affected]:STRING=[true]:String
-    13:[name]:STRING=[APPLE INC COM]:String
-    14:[comment]:STRING=[APPLE INC]:String
-    15:[brokerage_id]:STRING=[null]
-    16:[taxes]:STRING=[0]:String
-    17:[credits]:STRING=[0]:String
-    18:[rate_currency]:STRING=[USD]:String
-    19:[acb_per_share]:STRING=[97.39466465]:String
-    20:[uuid]:STRING=[b5ee1d39-6837-45a9-9dea-8f4484226464]:String
-    21:[linked_uuid]:STRING=[5cdbc138-c762-47b1-b7be-5618282e007a]:String
-    22:[use_rate_ccy]:STRING=[false]:String
-    23:[provider]:STRING=[YAHOO]:String
-*/    
 
 }

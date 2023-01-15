@@ -16,3 +16,5 @@ Data-Ingestion-Pipeline/.classpath
 Data-Ingestion-Pipeline/settings.gradle
 Data-Ingestion-Pipeline/.settings/
 Data-Ingestion-Pipeline/data/output/
+Data-Ingestion-Pipeline/data/input/portfolio_template.csv
+Data-Ingestion-Pipeline/data/input/portfolio_template_v2.csv
