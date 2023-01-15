@@ -1,0 +1,31 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenLocal()
+    jcenter()
+    maven {
+        url = 'https://maven.northconcepts.com/public/repositories/datapipeline'
+    }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+version = '8.1.0-SNAPSHOT'
+
+configurations.all {
+    // Check for updates every 30 minutes (0 for every build)
+    //resolutionStrategy.cacheChangingModulesFor 30, 'minutes'
+    //resolutionStrategy.cacheChangingModulesFor 0, 'minutes'
+}
+
+dependencies {
+    compile "com.northconcepts:northconcepts-datapipeline-small-business:${version}"
+    compile "com.northconcepts:northconcepts-datapipeline-foundations:${version}"
+    compile "com.northconcepts:northconcepts-datapipeline-integrations-parquet:${version}"
+    compile "com.fasterxml.jackson:jackson-bom:2.13.4.20221012";
+    compile 'junit:junit:4.13.2'
+    compile 'org.hsqldb:hsqldb:2.4.0'
+    compile 'com.h2database:h2:1.4.200'
+}

@@ -11,3 +11,8 @@ gradle/
 NorthConcepts-DataPipeline.license
 Thumbs.db
 temp/
+Data-Ingestion-Pipeline/.project
+Data-Ingestion-Pipeline/.classpath
+Data-Ingestion-Pipeline/settings.gradle
+Data-Ingestion-Pipeline/.settings/
+Data-Ingestion-Pipeline/data/output/
