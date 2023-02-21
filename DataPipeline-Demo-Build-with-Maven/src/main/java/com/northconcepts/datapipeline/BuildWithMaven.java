@@ -1,0 +1,47 @@
+package com.northconcepts.datapipeline;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.math.BigInteger;
+
+import com.northconcepts.datapipeline.core.Record;
+
+public class BuildWithMaven {
+
+    public static void main(String[] args) throws Throwable{
+        Record record1 = new Record();
+        record1.setField("name", "John Wayne");
+        record1.setField("balance", "12345678901234567890");
+
+        Record record2 = new Record();
+        record2.setField("name", "Peter Parker");
+        record2.setField("balance", new BigInteger("98765432109876543210"));
+
+        System.out.println(record1);
+        System.out.println(record2);
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ObjectOutputStream outputStream = new ObjectOutputStream(byteArrayOutputStream);
+        outputStream.writeObject(record1);
+        outputStream.writeObject(record2);
+        outputStream.close();
+
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        System.out.println("Bytes written: " + bytes.length);
+
+        System.out.println("Serialization of records completed");
+
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+        ObjectInputStream inputStream = new ObjectInputStream(byteArrayInputStream);
+        record1 = (Record) inputStream.readObject();
+        record2 = (Record) inputStream.readObject();
+        inputStream.close();
+
+        System.out.println(record1);
+        System.out.println(record2);
+
+        System.out.println("Deserialization of records completed");
+    }
+}
