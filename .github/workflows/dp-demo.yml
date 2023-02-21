@@ -1,7 +1,6 @@
 name: Java CI
 
 on:
-  push:
   schedule:
     - cron: '30 13 15 * *'
   workflow_dispatch:
