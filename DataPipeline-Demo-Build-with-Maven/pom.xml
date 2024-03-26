@@ -26,7 +26,7 @@
         <dependency>
             <groupId>com.northconcepts</groupId>
             <artifactId>northconcepts-datapipeline-small-business</artifactId>
-            <version>8.0.0</version>
+            <version>9.0.0-SNAPSHOT</version>
             <scope>compile</scope>
             <exclusions>
                 <exclusion>
