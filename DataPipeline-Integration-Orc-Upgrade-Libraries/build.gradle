@@ -1,0 +1,50 @@
+plugins {
+    id 'java'
+    id 'eclipse'
+}
+
+repositories {
+    //mavenLocal()
+    jcenter()
+    maven {
+        url = 'https://maven.twttr.com/'
+    }
+    maven {
+        url = 'https://jitpack.io'
+    }
+    maven {
+        url = 'https://maven.northconcepts.com/public/repositories/datapipeline'
+    }
+}
+
+sourceCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_21
+version = '9.0.0-SNAPSHOT'
+
+
+configurations.all {
+    // Check for updates every 30 minutes (0 for every build)
+    //resolutionStrategy.cacheChangingModulesFor 30, 'minutes'
+    //resolutionStrategy.cacheChangingModulesFor 0, 'minutes'
+}
+
+dependencies {
+    implementation "com.northconcepts:northconcepts-datapipeline-integrations-orc:${version}"
+    
+    // exclude core ORC dependencies from DPI-ORC
+    implementation ('com.northconcepts:northconcepts-datapipeline-integrations-orc:${version}') {
+      exclude group: "org.apache.orc", module: "orc-core"
+      exclude group: "org.apache.orc", module: "orc-tools"
+      exclude group: "org.apache.hadoop", module: "hadoop-common"
+      exclude group: "org.apache.hadoop", module: "hadoop-aws"
+      exclude group: "org.apache.hive", module: "hive-storage-api"
+    }
+    
+    // add different/latest version of ORC dependencies
+    implementation 'org.apache.orc:orc-core:2.0.0'
+    implementation 'org.apache.orc:orc-tools:2.0.0'
+    implementation 'org.apache.hadoop:hadoop-common:3.4.0'
+    implementation 'org.apache.hadoop:hadoop-aws:3.4.0'
+    implementation 'org.apache.hive:hive-storage-api:4.0.0'
+    implementation 'com.google.protobuf:protobuf-java:3.21.9'  
+}
