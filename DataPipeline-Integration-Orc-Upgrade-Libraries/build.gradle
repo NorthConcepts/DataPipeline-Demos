@@ -4,21 +4,17 @@ plugins {
 }
 
 repositories {
-    //mavenLocal()
     jcenter()
     maven {
-        url = 'https://maven.twttr.com/'
-    }
-    maven {
-        url = 'https://jitpack.io'
-    }
-    maven {
         url = 'https://maven.northconcepts.com/public/repositories/datapipeline'
+        content {
+            includeGroup "com.northconcepts"
+        }
     }
 }
 
-sourceCompatibility = JavaVersion.VERSION_21
-targetCompatibility = JavaVersion.VERSION_21
+sourceCompatibility = JavaVersion.VERSION_17
+targetCompatibility = JavaVersion.VERSION_17
 version = '9.0.0-SNAPSHOT'
 
 
