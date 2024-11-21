@@ -1,0 +1,85 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.northconcepts'
+version = '1.0-SNAPSHOT'
+
+def dpVersion = '9.0.0-SNAPSHOT'
+//def dpVersion = '8.3.0'
+
+repositories {
+    mavenLocal()
+    maven {
+        url = uri('https://northconcepts.mycloudrepo.io/public/repositories/datapipeline')
+    }
+
+    maven {
+        url = uri('https://repo.maven.apache.org/maven2/')
+    }
+}
+
+configurations.all {
+    exclude group: 'org.apache.hadoop', module: 'hadoop-aws'
+}
+
+
+dependencies {
+    implementation ('com.northconcepts:northconcepts-datapipeline-small-business:' + dpVersion){
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'log4j', module: 'log4j'
+    }
+    implementation ('com.northconcepts:northconcepts-datapipeline-foundations:' + dpVersion){
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'log4j', module: 'log4j'
+    }
+    implementation ('com.northconcepts:northconcepts-datapipeline-integrations-parquet:' + dpVersion){
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'log4j', module: 'log4j'
+    }
+    implementation ('com.northconcepts:northconcepts-datapipeline-integrations-bloomberg:' + dpVersion){
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'log4j', module: 'log4j'
+    }
+    implementation ('com.northconcepts:northconcepts-datapipeline-filesystems-amazons3:' + dpVersion) {
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'log4j', module: 'log4j'
+    }
+
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.649'
+    implementation 'com.amazonaws:aws-java-sdk-redshiftserverless:1.12.649'
+    implementation 'com.amazonaws:aws-java-sdk-sts:1.12.649'
+    implementation 'commons-cli:commons-cli:1.5.0'
+    implementation 'org.apache.commons:commons-configuration2:2.7'
+    implementation 'commons-beanutils:commons-beanutils:1.9.4'
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'org.apache.commons:commons-text:1.9'
+    implementation 'org.apache.commons:commons-compress:1.21'
+    implementation 'org.slf4j:log4j-over-slf4j:1.7.36'
+    implementation 'ch.qos.logback:logback-classic:1.2.11'
+    implementation 'org.postgresql:postgresql:42.3.4'
+    implementation 'com.oracle.database.jdbc:ojdbc11:21.7.0.0'
+    implementation 'com.amazon.redshift:redshift-jdbc42:2.1.0.9'
+    implementation 'com.microsoft.sqlserver:mssql-jdbc:12.2.0.jre11'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+    testImplementation 'commons-codec:commons-codec:1.15'
+    testImplementation ('org.apache.spark:spark-core_2.12:3.3.1'){
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'log4j', module: 'log4j'
+    }
+    testImplementation ('org.apache.spark:spark-sql_2.12:3.3.1'){
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'log4j', module: 'log4j'
+    }
+    testImplementation 'io.zonky.test:embedded-postgres:2.0.4'
+    testImplementation 'io.zonky.test.postgres:embedded-postgres-binaries-bom:15.3.0'
+    testImplementation 'org.mockito:mockito-core:5.3.1'
+}
+
+test {
+    // Comment line below for running local build
+    jvmArgs ('--add-opens=java.base/sun.nio.ch=ALL-UNNAMED')
+    useJUnitPlatform()
+}
+
+java.sourceCompatibility = JavaVersion.VERSION_17
