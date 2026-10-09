@@ -21,7 +21,8 @@
 
     <dependencies>
 
-        <!-- SLF4J 1.7 and Logback 1.2: the AWS SDK bundle used by hadoop-aws only binds to the SLF4J 1.7 API -->
+        <!-- SLF4J 1.7 and Logback 1.2: the AWS SDK bundle used by hadoop-aws only binds to the SLF4J 1.7 API.
+             log4j-to-slf4j supports both SLF4J 1.7 and 2. -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>log4j-over-slf4j</artifactId>

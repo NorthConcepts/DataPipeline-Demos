@@ -11,9 +11,9 @@ The DataPipeline jar in the `lib` folder requires a license file to run.
 ## Running Examples
 This module relies on the [Gradle](https://gradle.org/) tool for build automation.  It also contains project files for the Eclipse IDE.
 
-Run this app locally by executing `gradlew appRun` on the command line and browsing to [http://localhost:8080/events1/](http://localhost:8080/events1/).
+Run this app locally by executing `./gradlew appRun` (`gradlew.bat appRun` on Windows) on the command line and browsing to [http://localhost:8080/events1/](http://localhost:8080/events1/).
 
-Build the war file in `build/libs` by executing `gradlew build`.
+Build the war file in `build/libs` by executing `./gradlew build` (`gradlew.bat build` on Windows).
 
 ## DataPipeline Resources
 - [DataPipeline Home](https://northconcepts.com/)
