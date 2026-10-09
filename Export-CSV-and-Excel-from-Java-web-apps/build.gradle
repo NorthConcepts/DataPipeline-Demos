@@ -1,32 +1,37 @@
 plugins {
     id 'java'
     id 'war'
-    id 'org.gretty' version '2.2.0'    
+    id 'org.gretty' version '4.1.10'
 }
 
+sourceCompatibility = JavaVersion.VERSION_21
+targetCompatibility = JavaVersion.VERSION_21
+
 dependencies {
-    providedCompile 'javax.servlet:javax.servlet-api:4.0.1'
+    providedCompile 'jakarta.servlet:jakarta.servlet-api:5.0.0'
 
-    compile  "com.northconcepts:northconcepts-datapipeline-small-business:9.0.0-SNAPSHOT"
+    implementation "com.northconcepts:northconcepts-datapipeline-small-business:11.0.0"
 
-    compile 'org.hsqldb:hsqldb:2.4.1'
-    compile 'org.jboss.resteasy:resteasy-jaxrs:3.6.1.Final'
+    implementation 'org.hsqldb:hsqldb:2.7.4'
+    implementation 'org.jboss.resteasy:resteasy-core:6.2.19.Final'
 
-    //testCompile 'junit:junit:4.13.1'
+    //testImplementation 'junit:junit:4.13.2'
 }
 
 repositories {
-    jcenter()
+    mavenCentral()
     maven {
         url = 'https://maven.northconcepts.com/public/repositories/datapipeline'
     }
 }
 
 
-archivesBaseName='events1'
+base {
+    archivesName = 'events1'
+}
 
 gretty {
-    servletContainer = 'jetty9.4'
+    servletContainer = 'jetty11'
 
 //    httpEnabled = true
 //    httpPort = 8081

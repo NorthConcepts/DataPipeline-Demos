@@ -1,5 +1,5 @@
 # Upgrade DataPipeline Integration - ORC Dependencies  
-This project illustrates how you can upgrade the libraries used by DataPipeline.  This demo upgrades the Apache Orc library to a version that required JDK 17.
+This project illustrates how you can upgrade the libraries used by DataPipeline.  This demo upgrades the Apache Orc library to a version that requires JDK 17 or later; DataPipeline 11 itself requires JDK 21.
 
 ## DataPipeline License
 The DataPipeline requires a license file to run. Follow the guide to install the license: [Install DataPipeline License](https://northconcepts.com/docs/user-guide/getting-started/#3-install-license)

@@ -6,19 +6,18 @@ import java.io.PrintWriter;
 import java.net.URI;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.POST;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Response;
 
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemFactory;
-import org.apache.commons.fileupload.disk.DiskFileItemFactory;
-import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.jboss.resteasy.spi.ResteasyProviderFactory;
+import org.apache.commons.fileupload2.core.DiskFileItem;
+import org.apache.commons.fileupload2.core.DiskFileItemFactory;
+import org.apache.commons.fileupload2.jakarta.servlet5.JakartaServletFileUpload;
+import org.jboss.resteasy.core.ResteasyContext;
 
 import com.northconcepts.datapipeline.core.DataException;
 import com.northconcepts.datapipeline.core.DataReader;
@@ -110,8 +109,8 @@ public class EventsResource {
         request.setAttribute("recordList", recordList);
         
         // Workaround for https://issues.jboss.org/browse/RESTEASY-903
-        request = ResteasyProviderFactory.getContextData(HttpServletRequest.class);  
-        response = ResteasyProviderFactory.getContextData(HttpServletResponse.class);
+        request = ResteasyContext.getContextData(HttpServletRequest.class);  
+        response = ResteasyContext.getContextData(HttpServletResponse.class);
         
         request.getRequestDispatcher("/WEB-INF/jsp/events.jsp").forward(request, response);
     }
@@ -152,23 +151,23 @@ public class EventsResource {
     @POST
     @Path("/events")
     public Response uploadEvents(@Context HttpServletRequest request) throws Throwable {
-        boolean isMultipart = ServletFileUpload.isMultipartContent(request);
+        boolean isMultipart = JakartaServletFileUpload.isMultipartContent(request);
         if (!isMultipart) {
             return Response.ok("Not multipart request").build();
         }
         
-        FileItemFactory factory = new DiskFileItemFactory();
-        ServletFileUpload upload = new ServletFileUpload(factory);
-        List<FileItem> files = upload.parseRequest(request);
+        DiskFileItemFactory factory = DiskFileItemFactory.builder().get();
+        JakartaServletFileUpload<DiskFileItem, DiskFileItemFactory> upload = new JakartaServletFileUpload<>(factory);
+        List<DiskFileItem> files = upload.parseRequest(request);
         
-        for (FileItem file : files) {
+        for (DiskFileItem file : files) {
             saveEvents(file);
         }
         
         return Response.seeOther(new URI("/events")).build();
     }
 
-    private void saveEvents(FileItem file) throws Throwable {
+    private void saveEvents(DiskFileItem file) throws Throwable {
         if (file.isFormField()) {
             return;
         }

@@ -4,14 +4,14 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URI;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.Response;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.core.Context;
+import jakarta.ws.rs.core.Response;
 
-import org.jboss.resteasy.spi.ResteasyProviderFactory;
+import org.jboss.resteasy.core.ResteasyContext;
 
 import com.northconcepts.datapipeline.core.DataReader;
 import com.northconcepts.datapipeline.core.DataWriter;
@@ -97,8 +97,8 @@ public class EventsResource {
         request.setAttribute("recordList", recordList);
         
         // Workaround for https://issues.jboss.org/browse/RESTEASY-903
-        request = ResteasyProviderFactory.getContextData(HttpServletRequest.class);  
-        response = ResteasyProviderFactory.getContextData(HttpServletResponse.class);
+        request = ResteasyContext.getContextData(HttpServletRequest.class);  
+        response = ResteasyContext.getContextData(HttpServletResponse.class);
         
         request.getRequestDispatcher("/WEB-INF/jsp/events.jsp").forward(request, response);
     }
