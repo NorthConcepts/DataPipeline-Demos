@@ -42,7 +42,7 @@ import com.northconcepts.datapipeline.transform.TransformingReader;
 @Path("/")
 public class EventsResource {
     
-    private static final DB db = new DB();
+    static final DB db = new DB();
 
     static {
         // Create EVENT table

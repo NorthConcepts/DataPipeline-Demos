@@ -10,6 +10,10 @@
         <listener-class>org.jboss.resteasy.plugins.server.servlet.ResteasyBootstrap</listener-class>
     </listener>
 
+    <listener>
+        <listener-class>com.northconcepts.events.web.DBShutdownListener</listener-class>
+    </listener>
+
     <context-param>
         <param-name>resteasy.resources</param-name>
         <param-value>com.northconcepts.events.web.EventsResource</param-value>
