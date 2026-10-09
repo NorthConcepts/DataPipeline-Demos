@@ -14,6 +14,13 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        demo:
+          - DataPipeline-Demo-Build-with-Maven
+          - DataPipeline-Demo-Replace-Log4j-with-SLF4J-in-Maven
+
     steps:
       - uses: actions/checkout@v6
       - name: Set up JDK 21
@@ -23,7 +30,7 @@ jobs:
           distribution: 'zulu'
           cache: maven
       - name: Build with Maven
-        run: mvn -B package --file ./DataPipeline-Demo-Build-with-Maven/pom.xml
+        run: mvn -B package --file ./${{ matrix.demo }}/pom.xml
 
   build-gradle:
 
