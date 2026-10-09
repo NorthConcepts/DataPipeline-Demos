@@ -23,13 +23,16 @@ configurations.all {
     // Hadoop's Log4j 1.x binding would compete with Logback
     exclude group: 'org.slf4j', module: 'slf4j-reload4j'
     exclude group: 'ch.qos.reload4j', module: 'reload4j'
+    // log4j-to-slf4j asks for SLF4J 2, which would ignore the Logback 1.2 binding
+    resolutionStrategy.force 'org.slf4j:slf4j-api:1.7.36'
 }
 
 dependencies {
-    implementation 'org.slf4j:log4j-over-slf4j:2.0.17'
+    // SLF4J 1.7 and Logback 1.2: the AWS SDK bundle used by hadoop-aws only binds to the SLF4J 1.7 API
+    implementation 'org.slf4j:log4j-over-slf4j:1.7.36'
     implementation 'org.apache.logging.log4j:log4j-to-slf4j:2.26.1'
-    implementation 'org.slf4j:slf4j-api:2.0.17'
-    implementation 'ch.qos.logback:logback-classic:1.5.38'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+    implementation 'ch.qos.logback:logback-classic:1.2.13'
     implementation 'com.northconcepts:northconcepts-datapipeline-integrations-parquet-s3:11.0.0'
 }
 

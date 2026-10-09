@@ -40,5 +40,8 @@ dependencies {
     implementation 'org.apache.hadoop:hadoop-common:3.4.3'
     implementation 'org.apache.hadoop:hadoop-aws:3.4.3'
     implementation 'org.apache.hive:hive-storage-api:4.0.0'
+
+    // ORC 2 uses SLF4J 2, which ignores the SLF4J 1.7 binding that Hadoop brings
+    implementation 'org.slf4j:slf4j-reload4j:2.0.17'
     implementation 'com.google.protobuf:protobuf-java:3.21.9'
 }
