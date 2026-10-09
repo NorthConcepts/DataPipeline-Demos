@@ -15,12 +15,6 @@ public class DB {
         try {
             Class.forName("org.hsqldb.jdbcDriver");
             connection = DriverManager.getConnection("jdbc:hsqldb:mem:aname", "sa", "");
-
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                public void run() {
-                    shutdown();
-                }
-            });
         } catch (Throwable e) {
             throw DataException.wrap(e);
         }
