@@ -13,8 +13,10 @@ repositories {
     }
 }
 
-sourceCompatibility = JavaVersion.VERSION_21
-targetCompatibility = JavaVersion.VERSION_21
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
 
 configurations.all {
     // DataPipeline logs through the Log4j 1.x API backed by Log4j 2; remove both so the SLF4J bridges can take over
